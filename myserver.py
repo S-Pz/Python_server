@@ -39,20 +39,21 @@ def handle_Client(client_socket, dir):
 
     if os.path.isfile(dir+path):
 
-       # response_headers = f'HTTP/1.0 200 OK\nContent-Disposition: attachment; filename={file}\n'
-
-        #with open(path, 'rb') as file:
-           # content = file.read()
-
-       # response_headers += 'Content-Length: {}\n'.format(len(content))
-        #response = response_headers.encode() + b'\n' + content
-        #client_socket.send(response)
-
-        with open(dir + path, "rb") as file:
+        with open(dir + path, 'rb') as file:
             content = file.read()
-        header = "HTTP/1.1 200 OK " + "Content-Type: application/octet-stream"
-        print(header)
-        client_socket.send(header.encode() + content)
+            
+        response_headers = f'HTTP/1.0 200 OK\nContent-Disposition: inline; attachment; filename={path}\n'
+        print("Response Anwser",response_headers)
+        
+        response_headers += 'Content-Length: {}\n'.format(len(content))
+        response = response_headers.encode() + b'\n' + content
+        client_socket.send(response)
+
+        #with open(dir + path, "rb") as file:
+            #content = file.read()
+        #header = "HTTP/1.1 200 OK " + "Content-Type: application/octet-stream"
+        #print(header)
+        #client_socket.send(header.encode() + content)
 
     client_socket.close()
 
@@ -77,6 +78,6 @@ def start_Server(Host, Port, dir):
 
 if __name__ == '__main__':
     
-    dir = '/home/saviofrancisco'
-    start_Server('0.0.0.0', 9644, dir)
+    dir = '/home'
+    start_Server('0.0.0.0', 9991, dir)
    
