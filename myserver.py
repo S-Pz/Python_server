@@ -24,9 +24,7 @@ def handle_Client(client_socket, dir):
     path = parts[1]
 
     if path == "/HEADER":
-        fin = open('index.html')
-        content = fin.read()
-        fin.close()
+
         response = 'HTTP/1.1 200 OK\r\n'
         response += 'Content-Type: text/html\r\n'
         response += '\r\n'
@@ -57,7 +55,6 @@ def handle_Client(client_socket, dir):
         #header = "HTTP/1.1 200 OK " + "Content-Type: application/octet-stream"
         #print(header)
         #client_socket.send(header.encode() + content)
-
     client_socket.close()
 
 def start_Server(Host, Port, dir):
