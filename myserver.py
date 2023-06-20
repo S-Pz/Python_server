@@ -24,11 +24,14 @@ def handle_Client(client_socket, dir):
     path = parts[1]
 
     if path == "/HEADER":
-        client_socket.send(b"HTTP/1.1 200 OK\r\n")
-        client_socket.send(b"Content-Type: text/html\r\n")
-        client_socket.send(b"\r\n")
-        client_socket.send(b"<html><body><h1>Hello World!</h1></body></html>")
-        client_socket.send(b"\r\n")
+        fin = open('index.html')
+        content = fin.read()
+        fin.close()
+        response = 'HTTP/1.1 200 OK\r\n'
+        response += 'Content-Type: text/html\r\n'
+        response += '\r\n'
+        response += msg
+        client_socket.send(response.encode())
 
     if os.path.isdir(dir + path):
         client_socket.send(b"HTTP/1.1 200 OK\r\n")
@@ -71,7 +74,7 @@ def start_Server(Host, Port, dir):
             client_socket, client_adress = server_socket.accept()
             handle_Client(client_socket, dir)
         server_socket.close()
-
+    
     except:
         print ("error")
         server_socket.close()
@@ -79,5 +82,5 @@ def start_Server(Host, Port, dir):
 if __name__ == '__main__':
     
     dir = '/home'
-    start_Server('0.0.0.0', 9991, dir)
+    start_Server('0.0.0.0', 9999, dir)
    
